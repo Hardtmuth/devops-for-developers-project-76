@@ -1,0 +1,54 @@
+- hosts: all
+  become: true 
+  vars:
+    pg_env_file_path: "/tmp/postgres.env"
+    rm_env_file_path: "/tmp/redmine.env"
+  tasks:
+    - name: 1. Create Docker network
+      community.docker.docker_network:
+        name: redmine_network
+        state: present
+
+    - name: 2. Generate PostgreSQL .env file
+      ansible.builtin.template:
+        src: ./templates/postgres.env.j2
+        dest: "{{ pg_env_file_path }}"
+        mode: '0644'
+
+    - name: 3. Start PostgreSQL container
+      community.docker.docker_container:
+        name: postgres_container
+        image: postgres:latest
+        state: started
+        env_file: "{{ pg_env_file_path }}"
+        volumes:
+          - "/var/lib/postgresql/data:/var/lib/postgresql/data"
+        networks:
+          - name: redmine_network
+            aliases:
+              - postgres_container
+
+    - name: 4. Generate Redmine .env file
+      ansible.builtin.template:
+        src: ./templates/redmine.env.j2
+        dest: "{{ rm_env_file_path }}"
+        mode: '0644'
+
+    - name: 5. Start Redmine container
+      community.docker.docker_container:
+        name: redmine_container
+        image: redmine:latest
+        state: started
+        env_file: "{{ rm_env_file_path }}"
+        ports:
+          - "{{ redmine_port }}:{{ redmine_port }}"
+        networks:
+          - name: redmine_network
+
+    - name: 6. Remove .env files
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - "{{ pg_env_file_path }}"
+        - "{{ rm_env_file_path }}"
