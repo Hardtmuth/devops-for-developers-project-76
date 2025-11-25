@@ -1,6 +1,6 @@
 ---
 - name: Deploy Reamine app
-- hosts: all
+  hosts: all
   become: true
 
   vars:

@@ -1,6 +1,6 @@
 ---
 - name: Install datadog-agent and add http check instance
-- hosts: webservers
+  hosts: webservers
   become: true
 
   vars:
