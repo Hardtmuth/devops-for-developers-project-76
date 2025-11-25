@@ -31,6 +31,6 @@
       ansible.builtin.systemd:
         name: datadog-agent
         state: restarted
-        enabled: yes
+        enabled: true
       when: ansible_service_mgr == 'systemd'
   
