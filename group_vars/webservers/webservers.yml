@@ -1,0 +1,10 @@
+ansible_user: hexly
+ansible_python_interpreter: /usr/bin/python3.10
+redmine_port: 3000
+
+redmine_vars:
+  REDMINE_DB_ADDRESS: "{{ postgres_vars.POSTGRES_ADDRESS }}"
+  REDMINE_DB_PORT: "{{ postgres_vars.POSTGRES_PORT }}"
+  REDMINE_DB_DATABASE: "{{ postgres_vars.POSTGRES_DB }}"
+  REDMINE_DB_USERNAME: "{{ postgres_vars.POSTGRES_USER }}"
+  REDMINE_DB_PASSWORD: "{{ postgres_vars.POSTGRES_PASSWORD }}"

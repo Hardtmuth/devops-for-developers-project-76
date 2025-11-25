@@ -8,3 +8,4 @@
   roles:
     - geerlingguy.pip
     - geerlingguy.docker
+    - datadog.dd.agent
