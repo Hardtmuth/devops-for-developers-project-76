@@ -6,7 +6,7 @@
     datadog_site: "{{ datadog_vars.datadog_site }}"
     http_checks:
       - name: "redmine"
-        url: "http://lockalhost:3000/"
+        url: "http://localhost:3000/"
 
   tasks:
     - name: Import the Datadog Agent role from the Datadog collection

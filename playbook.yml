@@ -5,6 +5,12 @@
     pip_install_packages:
       - name: docker
 
+  pre_tasks:
+    - name: Perform full system upgrade
+      ansible.builtin.apt:
+        upgrade: dist
+        update_cache: yes
+
   roles:
     - geerlingguy.pip
     - geerlingguy.docker
